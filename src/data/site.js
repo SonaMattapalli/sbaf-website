@@ -18,10 +18,18 @@ export const SITE = {
 // WhatsApp chat link that opens with the pre-filled greeting.
 export const WHATSAPP_URL = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(SITE.whatsappMessage)}`;
 
+// Photos are self-hosted WebP in three widths (public/images); the browser picks the smallest that fits.
+const photo = (name) => ({
+  src: `${import.meta.env.BASE_URL}images/${name}-800.webp`,
+  srcSet: [480, 800, 1200].map((w) => `${import.meta.env.BASE_URL}images/${name}-${w}.webp ${w}w`).join(', '),
+  width: 1200,
+  height: 800,
+});
+
 export const IMAGES = {
-  hero: 'https://images.pexels.com/photos/36874550/pexels-photo-36874550.jpeg?auto=compress&cs=tinysrgb&w=1200',
-  newBike: 'https://images.pexels.com/photos/28281984/pexels-photo-28281984.jpeg?auto=compress&cs=tinysrgb&w=1200',
-  preOwned: 'https://images.pexels.com/photos/5622296/pexels-photo-5622296.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  hero: photo('hero'),
+  newBike: photo('new-bike'),
+  preOwned: photo('pre-owned'),
 };
 
 export const NAV = [

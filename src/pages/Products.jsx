@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Users, FileText, Check, HelpCircle } from 'lucide-react';
-import { PageHero, Reveal } from '../components/ui';
+import { PageHero, Photo, Reveal } from '../components/ui';
 import { PRODUCTS, JOURNEY } from '../data/site';
 
 export default function Products() {
@@ -14,7 +14,7 @@ export default function Products() {
           <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-start">
             <Reveal className={`lg:sticky lg:top-28 ${idx % 2 ? 'lg:order-2' : ''}`}>
               <div className="relative overflow-hidden rounded-[2rem] shadow-2xl shadow-navy/20">
-                <img src={p.image} alt={p.alt} className="aspect-[4/3.4] w-full object-cover" />
+                <Photo image={p.image} eager={idx === 0} alt={p.alt} className="aspect-[4/3.4] w-full object-cover" />
                 <span className="absolute left-5 top-5 rounded-full bg-navy/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold backdrop-blur">{p.badge}</span>
               </div>
             </Reveal>

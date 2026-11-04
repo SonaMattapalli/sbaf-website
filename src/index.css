@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 /* Brand typeface — Outfit (SIL OFL), from the SBAF brand kit */
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300; font-display: swap; src: url('/fonts/Outfit-Light.woff') format('woff'); }
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Outfit-Regular.woff') format('woff'); }
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/Outfit-Medium.woff') format('woff'); }
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/Outfit-SemiBold.woff') format('woff'); }
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/Outfit-Bold.woff') format('woff'); }
-@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 800; font-display: swap; src: url('/fonts/Outfit-ExtraBold.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300; font-display: swap; src: url('/fonts/Outfit-Light.woff2') format('woff2'), url('/fonts/Outfit-Light.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Outfit-Regular.woff2') format('woff2'), url('/fonts/Outfit-Regular.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/Outfit-Medium.woff2') format('woff2'), url('/fonts/Outfit-Medium.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/Outfit-SemiBold.woff2') format('woff2'), url('/fonts/Outfit-SemiBold.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/Outfit-Bold.woff2') format('woff2'), url('/fonts/Outfit-Bold.woff') format('woff'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 800; font-display: swap; src: url('/fonts/Outfit-ExtraBold.woff2') format('woff2'), url('/fonts/Outfit-ExtraBold.woff') format('woff'); }
 
 html { scroll-behavior: smooth; }
 body { @apply bg-background font-body text-foreground antialiased; }

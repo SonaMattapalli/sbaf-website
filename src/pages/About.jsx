@@ -1,5 +1,5 @@
 import { Target, Eye } from 'lucide-react';
-import { PageHero, Reveal, SectionHeading } from '../components/ui';
+import { PageHero, Photo, Reveal, SectionHeading } from '../components/ui';
 import { IMAGES } from '../data/site';
 
 const VALUES = [
@@ -27,7 +27,7 @@ export default function About() {
             <p className="mt-4 leading-relaxed text-slate-600">We work closely with two-wheeler dealerships and dealer partners, with partners across Andhra Pradesh. Our branch is located in Rajahmundry.</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <img src={IMAGES.newBike} alt="Indian rider with a two-wheeler financed by SBAF" className="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-2xl shadow-navy/20" />
+            <Photo image={IMAGES.newBike} alt="Indian rider with a two-wheeler financed by SBAF" className="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-2xl shadow-navy/20" />
           </Reveal>
         </div>
       </section>

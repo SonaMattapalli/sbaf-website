@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { m, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { MapPin, Motorbike, Check, FileCheck2, Headphones, ShieldCheck, Map, HeartHandshake } from 'lucide-react';
-import { Reveal, SectionHeading } from '../components/ui';
+import { Photo, Reveal, SectionHeading } from '../components/ui';
 import { useIntroDone } from '../components/Intro';
 import { IMAGES, PRODUCTS, JOURNEY } from '../data/site';
 
@@ -33,7 +33,7 @@ function Hero() {
       <div className="pointer-events-none absolute -left-32 bottom-0 h-96 w-96 rounded-full bg-gold/10 blur-[120px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[28rem] w-[28rem] rounded-full bg-gold/10 blur-[140px]" />
       <div className="container-x relative grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={ready ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.7 }}>
+        <m.div initial={{ opacity: 0, y: 30 }} animate={ready ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.7 }}>
           <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold sm:text-xs">
             <MapPin className="h-3.5 w-3.5" /> Two-Wheeler Finance • New &amp; Pre-Owned • Andhra Pradesh
           </span>
@@ -48,19 +48,19 @@ function Hero() {
             <Link to="/products" className="btn-gold">Explore Our Loans</Link>
             <Link to="/contact" className="btn-ghost-dark">Contact Us</Link>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div className="relative" initial={{ opacity: 0, scale: 0.96 }} animate={ready ? { opacity: 1, scale: 1 } : undefined}
+        <m.div className="relative" initial={{ opacity: 0, scale: 0.96 }} animate={ready ? { opacity: 1, scale: 1 } : undefined}
           transition={{ duration: 0.8, delay: 0.15 }}>
-          <motion.div style={{ x: photoX, y: photoY }} className="overflow-hidden rounded-[2rem] shadow-2xl shadow-black/40 ring-1 ring-white/10">
-            <img src={IMAGES.hero} alt="Indian customer with a motorcycle financed by SBAF" className="aspect-[4/3.2] w-full object-cover" />
-          </motion.div>
-          <motion.div style={{ x: badgeX, y: badgeY }} className="absolute -top-3 right-3 sm:-right-3">
+          <m.div style={{ x: photoX, y: photoY }} className="overflow-hidden rounded-[2rem] shadow-2xl shadow-black/40 ring-1 ring-white/10">
+            <Photo image={IMAGES.hero} priority alt="Indian customer with a motorcycle financed by SBAF" className="aspect-[4/3.2] w-full object-cover" />
+          </m.div>
+          <m.div style={{ x: badgeX, y: badgeY }} className="absolute -top-3 right-3 sm:-right-3">
             <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-navy/90 px-3 py-1.5 text-xs font-medium text-white backdrop-blur motion-safe:animate-float">
               <MapPin className="h-3.5 w-3.5 text-gold" /> Dealer Partners Across AP
             </div>
-          </motion.div>
-          <motion.div style={{ x: badgeX, y: badgeY }} className="absolute -bottom-6 left-4 sm:-left-6">
+          </m.div>
+          <m.div style={{ x: badgeX, y: badgeY }} className="absolute -bottom-6 left-4 sm:-left-6">
             <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-2xl motion-safe:animate-float-slow">
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-50 text-gold"><Motorbike className="h-5 w-5" /></span>
               <span>
@@ -68,8 +68,8 @@ function Hero() {
                 <span className="block text-xs text-slate-500">Two-Wheeler Finance</span>
               </span>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
 
       {/* marquee */}
@@ -100,7 +100,7 @@ function ProductCards() {
           {PRODUCTS.map((p, i) => (
             <Reveal key={p.id} delay={i * 0.1} as="article" className="group overflow-hidden rounded-3xl bg-white shadow-lg shadow-navy/5 transition hover:-translate-y-1 hover:shadow-2xl">
               <div className="relative h-64 overflow-hidden">
-                <img src={p.image} alt={p.alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <Photo image={p.image} alt={p.alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <span className="absolute left-5 top-5 rounded-full bg-navy/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold backdrop-blur">{p.badge}</span>
               </div>
               <div className="p-8">
@@ -158,8 +158,13 @@ function HowItWorks() {
   const progress = useSpring(scrollYProgress, { stiffness: 110, damping: 28, restDelta: 0.001 });
   const bikeLeft = useTransform(progress, (p) => `${p * 100}%`);
   const [lit, setLit] = useState(0);
+  const litRef = useRef(0);
   // A step lights up as the bike arrives at it (steps sit at 0, 1/3, 2/3 and 1 of the road).
-  useMotionValueEvent(progress, 'change', (p) => setLit(p <= 0.02 ? 0 : JOURNEY.filter((_, i) => p >= i / 3 - 0.04).length));
+  // Only update state when the lit count actually changes — this fires on every scroll frame.
+  useMotionValueEvent(progress, 'change', (p) => {
+    const next = p <= 0.02 ? 0 : JOURNEY.filter((_, i) => p >= i / 3 - 0.04).length;
+    if (next !== litRef.current) { litRef.current = next; setLit(next); }
+  });
   const litCount = reduce ? JOURNEY.length : lit;
 
   return (
@@ -170,10 +175,10 @@ function HowItWorks() {
           {/* the road runs from the centre of step 01 to the centre of step 04 */}
           <div aria-hidden="true" className="pointer-events-none absolute left-7 top-7 hidden w-[calc(75%+1.875rem)] lg:block">
             <div className="absolute inset-x-0 -top-px border-t-2 border-dashed border-white/15" />
-            <motion.div className="absolute inset-x-0 -top-[2px] h-1 origin-left rounded-full bg-gold" style={{ scaleX: reduce ? 1 : progress }} />
-            <motion.div className="absolute -top-[38px] -translate-x-1/2 text-gold" style={{ left: reduce ? '100%' : bikeLeft }}>
+            <m.div className="absolute inset-x-0 -top-[2px] h-1 origin-left rounded-full bg-gold" style={{ scaleX: reduce ? 1 : progress }} />
+            <m.div className="absolute -top-[38px] -translate-x-1/2 text-gold" style={{ left: reduce ? '100%' : bikeLeft }}>
               <Motorbike className="h-8 w-8" strokeWidth={1.75} />
-            </motion.div>
+            </m.div>
           </div>
           {JOURNEY.map((s, i) => {
             const on = i < litCount;

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Search, ChevronDown, MessageSquare } from 'lucide-react';
 import { PageHero, Reveal } from '../components/ui';
 import { FAQS } from '../data/site';
@@ -18,9 +18,9 @@ function Accordion({ items }) {
             </button>
             <AnimatePresence initial={false}>
               {isOpen && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                <m.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                   <p className="px-5 pb-5 text-sm leading-relaxed text-slate-600">{a}</p>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>

@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export function Reveal({ children, delay = 0, y = 24, className = '', as = 'div' }) {
-  const M = motion[as] || motion.div;
+  const M = m[as] || m.div;
   return (
     <M
       className={className}
@@ -25,6 +25,24 @@ export function SectionHeading({ eyebrow, title, text, dark = false, center = tr
   );
 }
 
+// Shown only if a page's code hasn't arrived yet (normally it's prefetched before you click).
+export function PageSkeleton() {
+  return (
+    <div aria-busy="true" aria-label="Loading page">
+      <div className="bg-navy">
+        <div className="container-x space-y-5 py-20 lg:py-24">
+          <div className="h-3 w-28 animate-pulse rounded-full bg-gold/30" />
+          <div className="h-10 w-2/3 max-w-xl animate-pulse rounded-xl bg-white/10" />
+          <div className="h-4 w-1/2 max-w-md animate-pulse rounded-full bg-white/10" />
+        </div>
+      </div>
+      <div className="container-x grid gap-6 py-20 sm:grid-cols-2 lg:grid-cols-3">
+        {[0, 1, 2].map((i) => <div key={i} className="h-40 animate-pulse rounded-3xl bg-slate-200/60" />)}
+      </div>
+    </div>
+  );
+}
+
 export function PageHero({ eyebrow, title, text }) {
   return (
     <section className="relative overflow-hidden bg-navy">
@@ -37,6 +55,17 @@ export function PageHero({ eyebrow, title, text }) {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+// Responsive photo. Lazy-loads by default; pass `priority` for the main above-the-fold image.
+export function Photo({ image, alt, className = '', priority = false, eager = false,
+  sizes = '(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw' }) {
+  return (
+    <img src={image.src} srcSet={image.srcSet} sizes={sizes} width={image.width} height={image.height} alt={alt}
+      loading={priority || eager ? 'eager' : 'lazy'} decoding="async" className={className}
+      // React 18 only passes fetch priority through in lowercase (camelCase logs a warning).
+      {...{ fetchpriority: priority ? 'high' : 'auto' }} />
   );
 }
 

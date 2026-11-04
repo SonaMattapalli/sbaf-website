@@ -1,6 +1,24 @@
+import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import { PageHero, Reveal } from '../components/ui';
 import { SITE, WHATSAPP_URL } from '../data/site';
+
+const MAP_URL = 'https://maps.google.com/maps?q=Ayyappa%20Nagar%2C%20Rajahmundry%2C%20Andhra%20Pradesh&z=14&output=embed';
+
+// Google Maps pulls in ~500 KB of scripts, so the map only starts loading once the rest of the page is ready.
+function BranchMap() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const start = () => setShow(true);
+    const idle = () => (window.requestIdleCallback ? window.requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
+    if (document.readyState === 'complete') { idle(); return undefined; }
+    window.addEventListener('load', idle, { once: true });
+    return () => window.removeEventListener('load', idle);
+  }, []);
+  return show
+    ? <iframe title="SBAF branch — Rajahmundry" className="h-80 w-full border-0 lg:h-96" loading="lazy" src={MAP_URL} />
+    : <div aria-hidden="true" className="flex h-80 w-full animate-pulse items-center justify-center bg-slate-200/60 lg:h-96"><MapPin className="h-8 w-8 text-slate-400" /></div>;
+}
 
 export default function Contact() {
   const cards = [
@@ -39,8 +57,7 @@ export default function Contact() {
           </Reveal>
           <div className="mt-8 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
             <Reveal className="overflow-hidden rounded-3xl shadow-lg">
-              <iframe title="SBAF branch — Rajahmundry" className="h-80 w-full border-0 lg:h-96" loading="lazy"
-                src="https://maps.google.com/maps?q=Ayyappa%20Nagar%2C%20Rajahmundry%2C%20Andhra%20Pradesh&z=14&output=embed" />
+              <BranchMap />
             </Reveal>
             <Reveal delay={0.1} className="rounded-3xl bg-background p-6 sm:p-8">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold"><MapPin className="h-5 w-5" /></span>

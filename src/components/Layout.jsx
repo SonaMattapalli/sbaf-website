@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, MessageCircle } from 'lucide-react';
-import { Toaster } from 'sonner';
-import { Logo } from './ui';
+import { Logo, PageSkeleton } from './ui';
+import { prefetchRoute, prefetchRoutesWhenIdle } from '../routes';
 import { NAV, SITE, WHATSAPP_URL } from '../data/site';
 
 function ScrollManager() {
@@ -28,7 +28,7 @@ function Navbar() {
         <Link to="/" aria-label="SBAF home"><Logo /></Link>
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {NAV.map((n) => (
-            <NavLink key={n.to} to={n.to} end
+            <NavLink key={n.to} to={n.to} end onMouseEnter={() => prefetchRoute(n.to)} onFocus={() => prefetchRoute(n.to)}
               className={({ isActive }) => `text-sm font-medium transition-colors duration-200 hover:text-gold ${isActive ? 'text-gold' : 'text-white/80'}`}>
               {n.label}
             </NavLink>
@@ -97,7 +97,7 @@ function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-14 border-t border-white/10 pt-8 text-center text-xs text-white/40">
+        <div className="mt-14 border-t border-white/10 pt-8 text-center text-xs text-white/60">
           © {new Date().getFullYear()} {SITE.legalName}. All Rights Reserved.
         </div>
       </div>
@@ -121,14 +121,14 @@ function FloatingActions() {
 }
 
 export default function Layout() {
+  useEffect(prefetchRoutesWhenIdle, []);
   return (
     <div className="min-h-screen bg-background font-body text-foreground">
       <ScrollManager />
       <Navbar />
-      <main><Outlet /></main>
+      <main><Suspense fallback={<PageSkeleton />}><Outlet /></Suspense></main>
       <Footer />
       <FloatingActions />
-      <Toaster position="top-center" richColors />
     </div>
   );
 }

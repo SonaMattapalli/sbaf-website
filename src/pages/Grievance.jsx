@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { ChevronDown, ArrowDown, User, BadgeCheck, Mail } from 'lucide-react';
 import { PageHero, Reveal, SectionHeading } from '../components/ui';
 import { GRIEVANCE_LEVELS, SITE } from '../data/site';
@@ -41,7 +41,7 @@ export default function Grievance() {
                     </button>
                     <AnimatePresence initial={false}>
                       {isOpen && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                        <m.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                           <div className="px-5 pb-6 sm:px-6">
                             <div className="grid gap-5 rounded-2xl bg-background p-5 sm:grid-cols-2">
                               {rows.map(([Icon, k, v]) => (
@@ -57,7 +57,7 @@ export default function Grievance() {
                               ))}
                             </div>
                           </div>
-                        </motion.div>
+                        </m.div>
                       )}
                     </AnimatePresence>
                   </Reveal>
